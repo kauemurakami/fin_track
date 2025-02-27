@@ -1,0 +1,15 @@
+export 'package:fin_track/modules/dashboard/page.dart';
+export 'package:fin_track/modules/expenses/page.dart';
+export 'package:fin_track/modules/expenses/provider.dart';
+export 'package:fin_track/modules/home/page.dart';
+export 'package:fin_track/modules/home/provider.dart';
+export 'package:fin_track/modules/income/page.dart';
+export 'package:fin_track/modules/income/provider.dart';
+export 'package:fin_track/routes/routes.dart';
+export 'package:fin_track/routes/transitions/fade_transition.dart';
+export 'package:fin_track/routes/transitions/slide_from.dart';
+export 'package:fin_track/routes/transitions/slide_transition.dart';
+export 'package:fin_track/utils/extensions/route_path.dart';
+export 'package:flutter/material.dart';
+export 'package:go_router/go_router.dart';
+export 'package:provider/provider.dart';
