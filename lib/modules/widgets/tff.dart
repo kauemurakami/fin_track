@@ -30,33 +30,34 @@ class Tff extends StatelessWidget {
       // style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400, color: Colors.black87),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(top: 4.0, bottom: 4.0, left: 12.0),
-        // enabledBorder: const OutlineInputBorder(
-        //   borderSide: BorderSide(width: .85),
-        // ),
-        // focusedBorder: const OutlineInputBorder(
-        //   borderSide: BorderSide(width: 1.4),
-        // ),
-        // disabledBorder: const OutlineInputBorder(
-        //   borderSide: BorderSide(width: .85),
-        // ),
-        // errorBorder: const OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //     // color: colorprimary,
-        //     width: .85,
-        //   ),
-        // ),
-        // focusedErrorBorder: const OutlineInputBorder(
-        //   borderSide: BorderSide(
-        //     width: .85,
-        //   ),
-        // ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(width: .85, color: Colors.deepPurple),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(width: 1.4, color: Colors.deepPurple),
+        ),
+        disabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(width: .85, color: Colors.deepPurple),
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red,
+            width: .85,
+          ),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red,
+            width: .85,
+          ),
+        ),
 
-        // errorMaxLines: 1,
-        // errorStyle: const TextStyle(
-        //   fontSize: 11.0,
-        //   height: .1,
-        //   color: Colors.red,
-        // ),
+        errorMaxLines: 1,
+        errorStyle: const TextStyle(
+          fontSize: 11.0,
+          height: .1,
+          color: Colors.red,
+        ),
         label: Text(label ?? ''),
         // labelStyle: const TextStyle(color: Colors.black, fontSize: 17.0),
       ),

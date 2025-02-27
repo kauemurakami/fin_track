@@ -10,7 +10,10 @@ class ExpensesRepository {
   ExpensesRepository(this.dbService);
 
   Future<Either<AppError, List<CategoryModel>>> fetchCategories() async => await dbService.fetchCategories();
-  Future<Either<AppError, CategoryModel>> addCategory() async => await dbService.addCategory();
+  Future<Either<AppError, List<TransactionModel>>> fetchExpenses() async => await dbService.fetchExpenses();
+  Future<Either<AppError, CategoryModel>> addCategory(CategoryModel category) async =>
+      await dbService.addCategory(category);
+
   Future<Either<AppError, TransactionModel>> addExpense(TransactionModel transaction) async =>
       await dbService.addExpense(transaction);
 }

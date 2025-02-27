@@ -1,3 +1,4 @@
+import 'package:fin_track/data/enums/transaction_type.dart';
 import 'package:fin_track/data/models/app_error.dart';
 import 'package:fin_track/data/models/category.dart';
 import 'package:fin_track/data/models/either.dart';
@@ -7,12 +8,33 @@ import 'package:path_provider/path_provider.dart';
 
 class DBService {
   static Database? _database;
-  Future<Either<AppError, CategoryModel>> addCategory() async {
+  Future<Either<AppError, CategoryModel>> addCategory(CategoryModel category) async {
     return Either.left(AppError(error: '1'));
   }
 
   Future<Either<AppError, TransactionModel>> addExpense(TransactionModel transaction) async {
     return Either.left(AppError(error: '1'));
+  }
+
+  // Função para recuperar todas as transactions do tipo expense
+  Future<Either<AppError, List<TransactionModel>>> fetchExpenses() async {
+    try {
+      final db = await database;
+      // Recuperar todas as categorias
+      final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery(
+        'SELECT * FROM transactions WHERE type = ?',
+        [TransactionType.expense.type],
+      );
+      print(transactionsMaps);
+
+      return Either.right(transactionsFromMap(transactionsMaps));
+    } on DatabaseException catch (e) {
+      print('Error in recovery transactions: ${e.toString()}');
+      return Either.left(AppError(error: 'Database Exception', message: 'Error recovery expenses'));
+    } catch (e) {
+      print('Unexpected Error: ${e.toString()}');
+      return Either.left(AppError(error: 'Unexpected Error', message: 'Unexpected Error'));
+    }
   }
 
   // Função para recuperar todas as categorias
@@ -25,11 +47,11 @@ class DBService {
 
       return Either.right(categoriesFromMap(categoryMaps));
     } on DatabaseException catch (e) {
-      print('Erro ao recuperar categorias: ${e.toString()}');
-      return Either.left(AppError(error: 'Database Exception', message: 'Erro ao recuperar categorias'));
+      print('Error in recovery categories: ${e.toString()}');
+      return Either.left(AppError(error: 'Database Exception', message: 'Error recovery categories'));
     } catch (e) {
-      print('Erro inesperado: ${e.toString()}');
-      return Either.left(AppError(error: 'Unexpected Error', message: 'Um erro inesperado aconteceu, tente novamente'));
+      print('Unexpected Error: ${e.toString()}');
+      return Either.left(AppError(error: 'Unexpected Error', message: 'Unexpected Error'));
     }
   }
 

@@ -3,6 +3,12 @@ import 'dart:convert';
 import 'package:fin_track/data/enums/transaction_type.dart';
 import 'package:fin_track/data/models/category.dart';
 
+List<TransactionModel> transactionsFromMap(List<Map<String, dynamic>> transactionMaps) {
+  return List<TransactionModel>.from(
+    transactionMaps.map((map) => TransactionModel.fromJson(map)),
+  );
+}
+
 List<TransactionModel> transactionFromJson(String str) => List<TransactionModel>.from(
       json.decode(str).map(
             (x) => TransactionModel.fromJson(x),
@@ -19,7 +25,7 @@ String transactionToJson(List<TransactionModel> data) => json.encode(
 
 class TransactionModel {
   String? id, title;
-  int? amount;
+  double? amount;
   DateTime? date;
   TransactionType? type;
   CategoryModel? category;
@@ -39,15 +45,14 @@ class TransactionModel {
         amount: json["amount"],
         date: DateTime.parse(json["date"]),
         type: json["type"] == TransactionType.expense.type ? TransactionType.expense : TransactionType.income,
-        category: CategoryModel.fromJson(json["category"]),
+        category: json["category"] == null ? null : CategoryModel.fromJson(json["category"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
         "title": title,
         "amount": amount,
         "date": date?.toIso8601String(),
         "type": type == TransactionType.expense ? TransactionType.expense.type : TransactionType.income.type,
-        "category": category?.toJson(),
+        "category_id": category?.id,
       };
 }

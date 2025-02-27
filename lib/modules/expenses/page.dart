@@ -34,9 +34,9 @@ class _ExpensesPageState extends State<ExpensesPage> {
           enableDrag: true,
           isDismissible: true,
           context: context,
-          builder: (context) => ChangeNotifierProvider.value(
+          builder: (_) => ChangeNotifierProvider.value(
             value: provider,
-            builder: (context, child) => BSAddExpense(),
+            builder: (__, ___) => BSAddExpense(),
           ),
         ),
         child: Icon(Icons.add),
