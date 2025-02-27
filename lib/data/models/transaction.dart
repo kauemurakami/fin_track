@@ -46,7 +46,7 @@ class TransactionModel {
         amount: json["amount"],
         date: DateTime.parse(json["date"]),
         type: json["type"] == TransactionType.expense.type ? TransactionType.expense : TransactionType.income,
-        category: json["category"] == null ? null : CategoryModel.fromJson(json["category"]),
+        category: json["category"] == null ? null : CategoryModel.fromJson(jsonDecode(json["category"])),
       );
 
   Map<String, dynamic> toJson() => {

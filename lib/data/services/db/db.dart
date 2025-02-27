@@ -34,10 +34,17 @@ class DBService {
     try {
       final db = await database;
       // Recuperar todas as categorias
-      final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery(
-        'SELECT * FROM transactions WHERE type = ?',
-        [TransactionType.expense.type],
-      );
+      final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery('''
+        SELECT
+          t.*,
+          json_object(
+            'id', c.id,
+            'name', c.name
+          ) as category
+        FROM transactions t
+        LEFT JOIN categories c ON t.category_id = c.id
+        WHERE t.type = ?
+      ''', [TransactionType.expense.type]);
       print(transactionsMaps);
 
       return Either.right(transactionsFromMap(transactionsMaps));

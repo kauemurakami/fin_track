@@ -31,11 +31,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'FinTrack',
-      theme: ThemeData.dark().copyWith(
+      theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
         ),
       ),
+      // theme: ThemeData.dark().copyWith(
+      //   colorScheme: ColorScheme.fromSeed(
+      //     seedColor: Colors.deepPurple,
+      //   ),
+      // ),
+
       routerConfig: getIt<NavigationService>().router,
     );
   }

@@ -11,7 +11,8 @@ class ExpensesProvider extends ChangeNotifier {
 
   ExpensesProvider(this.repository);
   List<CategoryModel> categories = [];
-  List<TransactionModel> transactions = [];
+  ValueNotifier<List<TransactionModel>> transactions = ValueNotifier([]);
+  ValueNotifier<bool> loadTransactions = ValueNotifier(true);
   late CategoryModel selectedCategory;
   CategoryModel newCategory = CategoryModel();
   TransactionModel newTransaction = TransactionModel();
@@ -24,7 +25,7 @@ class ExpensesProvider extends ChangeNotifier {
     result.fold((AppError error) {
       //TODO: another handlers
     }, (TransactionModel transaction) {
-      transactions.add(transaction);
+      transactions.value.add(transaction);
       notifyListeners();
     });
     return result;
@@ -34,10 +35,11 @@ class ExpensesProvider extends ChangeNotifier {
     final Either<AppError, List<TransactionModel>> result = await repository.fetchExpenses();
     result.fold((AppError error) {
       //TODO: another handlers
-      categories = [];
+      transactions.value = [];
     }, (List<TransactionModel> transactions) {
-      this.transactions = transactions;
+      this.transactions.value = transactions;
     });
+    loadTransactions.value = false;
     notifyListeners();
     return result;
   }
