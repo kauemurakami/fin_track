@@ -1,13 +1,24 @@
-class Category {
-  String? id;
+import 'dart:convert';
+
+// Função para converter um List<Map<String, dynamic>> em uma lista de Category
+List<CategoryModel> categoriesFromMap(List<Map<String, dynamic>> categoryMaps) {
+  return List<CategoryModel>.from(categoryMaps.map((map) => CategoryModel.fromJson(map)));
+}
+
+CategoryModel categoryFromJson(String str) => CategoryModel.fromJson(json.decode(str));
+
+String categoryToJson(CategoryModel data) => json.encode(data.toJson());
+
+class CategoryModel {
+  int? id;
   String? name;
 
-  Category({
+  CategoryModel({
     this.id,
     this.name,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
         id: json["id"],
         name: json["name"],
       );

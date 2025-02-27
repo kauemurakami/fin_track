@@ -1,3 +1,6 @@
+import 'package:fin_track/data/di/setup_locator.dart';
+import 'package:fin_track/data/services/db/db.dart';
+import 'package:fin_track/modules/expenses/repository.dart';
 
 import './delegate_imports.dart';
 
@@ -70,7 +73,11 @@ class MyGoRouterDelegate {
                   return CustomSlideTransition(
                     from: SlideFrom.right,
                     child: ChangeNotifierProvider<ExpensesProvider>(
-                      create: (_) => ExpensesProvider(),
+                      create: (_) => ExpensesProvider(
+                        ExpensesRepository(
+                          getIt<DBService>(),
+                        ),
+                      ),
                       child: const ExpensesPage(),
                     ),
                   );

@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:fin_track/data/enums/transaction_type.dart';
 import 'package:fin_track/data/models/category.dart';
 
-List<Transaction> transactionFromJson(String str) => List<Transaction>.from(
+List<TransactionModel> transactionFromJson(String str) => List<TransactionModel>.from(
       json.decode(str).map(
-            (x) => Transaction.fromJson(x),
+            (x) => TransactionModel.fromJson(x),
           ),
     );
 
-String transactionToJson(List<Transaction> data) => json.encode(
+String transactionToJson(List<TransactionModel> data) => json.encode(
       List<dynamic>.from(
         data.map(
           (x) => x.toJson(),
@@ -17,14 +17,14 @@ String transactionToJson(List<Transaction> data) => json.encode(
       ),
     );
 
-class Transaction {
+class TransactionModel {
   String? id, title;
   int? amount;
   DateTime? date;
   TransactionType? type;
-  Category? category;
+  CategoryModel? category;
 
-  Transaction({
+  TransactionModel({
     this.id,
     this.title,
     this.amount,
@@ -33,13 +33,13 @@ class Transaction {
     this.category,
   });
 
-  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
+  factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
         id: json["id"],
         title: json["title"],
         amount: json["amount"],
         date: DateTime.parse(json["date"]),
         type: json["type"] == TransactionType.expense.type ? TransactionType.expense : TransactionType.income,
-        category: Category.fromJson(json["category"]),
+        category: CategoryModel.fromJson(json["category"]),
       );
 
   Map<String, dynamic> toJson() => {
