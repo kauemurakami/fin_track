@@ -13,7 +13,20 @@ class DBService {
   }
 
   Future<Either<AppError, TransactionModel>> addExpense(TransactionModel transaction) async {
-    return Either.left(AppError(error: '1'));
+    try {
+      final db = await database;
+
+      final insertedId = await db.insert('transactions', transaction.toJson());
+      final transactionMap = await db.rawQuery('SELECT * FROM transactions WHERE id = ?', [insertedId]);
+
+      return Either.right(TransactionModel.fromJson(transactionMap.first));
+    } on DatabaseException catch (e) {
+      print('Error in add expense: ${e.toString()}');
+      return Either.left(AppError(error: 'Database Exception', message: 'Error insert expense'));
+    } catch (e) {
+      print('Unexpected Error: ${e.toString()}');
+      return Either.left(AppError(error: 'Unexpected Error', message: 'Unexpected Error'));
+    }
   }
 
   // Função para recuperar todas as transactions do tipo expense

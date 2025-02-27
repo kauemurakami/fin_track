@@ -16,6 +16,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
   void initState() {
     provider = Provider.of<ExpensesProvider>(context, listen: false);
     provider.fetchCategories();
+    provider.fetchExpenses();
     super.initState();
   }
 

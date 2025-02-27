@@ -24,7 +24,8 @@ String transactionToJson(List<TransactionModel> data) => json.encode(
     );
 
 class TransactionModel {
-  String? id, title;
+  String? title;
+  int? id;
   double? amount;
   DateTime? date;
   TransactionType? type;

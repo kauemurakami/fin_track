@@ -16,7 +16,7 @@ class ExpensesProvider extends ChangeNotifier {
   CategoryModel newCategory = CategoryModel();
   TransactionModel newTransaction = TransactionModel();
 
-  Future<Either<AppError, TransactionModel>> addTransaction() async {
+  Future<Either<AppError, TransactionModel>> addExpense() async {
     newTransaction.category = selectedCategory;
     newTransaction.date = DateTime.now();
     newTransaction.type = TransactionType.expense;
@@ -25,8 +25,8 @@ class ExpensesProvider extends ChangeNotifier {
       //TODO: another handlers
     }, (TransactionModel transaction) {
       transactions.add(transaction);
+      notifyListeners();
     });
-    notifyListeners();
     return result;
   }
 
