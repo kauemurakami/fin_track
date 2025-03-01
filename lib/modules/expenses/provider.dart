@@ -31,6 +31,8 @@ class ExpensesProvider extends ChangeNotifier {
     return result;
   }
 
+  addCategory() async {}
+
   Future<Either<AppError, List<TransactionModel>>> fetchExpenses() async {
     final Either<AppError, List<TransactionModel>> result = await repository.fetchExpenses();
     result.fold((AppError error) {
@@ -74,6 +76,18 @@ class ExpensesProvider extends ChangeNotifier {
     }
   }
 
-  onSavedAmount(String value) {}
+  onSavedAmount(String value) {
+    final amount = double.tryParse(value);
+    if (amount != null) {
+      newTransaction.amount = amount;
+    } else {
+      newTransaction.amount = 0.00;
+    }
+  }
+
   validateAmount(String value) => value.length < 1 ? 'Insert an amount' : null;
+
+  onChangedCategoryName(String value) => newCategory.name = value;
+  onSavedCategoryName(String value) => newCategory.name = value;
+  validateCategoryName(String value) => value.length < 3 ? 'Insert a valid category' : null;
 }

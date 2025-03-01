@@ -1,5 +1,6 @@
 import 'package:fin_track/data/models/category.dart';
 import 'package:fin_track/modules/expenses/provider.dart';
+import 'package:fin_track/modules/expenses/widgets/ad_add_category.dart';
 import 'package:fin_track/modules/widgets/button.dart';
 import 'package:fin_track/modules/widgets/tff.dart';
 import 'package:flutter/material.dart';
@@ -22,40 +23,41 @@ class BSAddExpense extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Add Expense',
-              style: TextTheme.of(context).titleMedium,
-            ),
+            Text('Add Expense', style: TextTheme.of(context).titleMedium),
             // Dropdown de categorias
             Column(
               children: [
                 DropdownButtonFormField<CategoryModel>(
                   padding: EdgeInsets.zero,
                   value: provider.selectedCategory,
-                  items: provider.categories.map((category) {
-                    return DropdownMenuItem<CategoryModel>(
-                      value: category,
-                      child: Text(category.name!),
-                    );
-                  }).toList(),
+                  items:
+                      provider.categories.map((category) {
+                        return DropdownMenuItem<CategoryModel>(value: category, child: Text(category.name!));
+                      }).toList(),
                   onChanged: (CategoryModel? value) {
                     if (value != null) {
                       // Atualizar a categoria selecionada
                       provider.selectCategory(value);
                     }
                   },
-                  decoration: InputDecoration(
-                    labelText: 'Categoria',
-                    border: OutlineInputBorder(),
-                  ),
+                  decoration: InputDecoration(labelText: 'Categoria', border: OutlineInputBorder()),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () => '',
+                      onPressed: () async {
+                        await showDialog(
+                          context: context,
+                          builder:
+                              (context) => ChangeNotifierProvider.value(
+                                value: provider,
+                                builder: (context, child) => ADCreateCategory(),
+                              ),
+                        );
+                      },
                       child: Text('Add new category'),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -86,17 +88,11 @@ class BSAddExpense extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 16.0,
-            ),
+            const SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DefaultButton(
-                  callback: () => Navigator.pop(context),
-                  text: 'Cancel',
-                  color: Colors.red.shade500,
-                ),
+                DefaultButton(callback: () => Navigator.pop(context), text: 'Cancel', color: Colors.red.shade500),
                 DefaultButton(
                   callback: () async {
                     await provider.addExpense();
@@ -105,7 +101,7 @@ class BSAddExpense extends StatelessWidget {
                   color: Colors.green.shade500,
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
