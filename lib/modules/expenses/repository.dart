@@ -12,7 +12,7 @@ class ExpensesRepository {
 
   Future<Either<AppError, List<CategoryModel>>> fetchCategories() async => await dbService.fetchCategories();
   Future<Either<AppError, List<TransactionModel>>> fetchExpenses(TransactionType type) async =>
-      await dbService.fetchTransactions(type);
+      await dbService.fetchTransactions(type: type);
   Future<Either<AppError, CategoryModel>> addCategory(CategoryModel category) async =>
       await dbService.addCategory(category);
 

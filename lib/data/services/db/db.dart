@@ -30,11 +30,11 @@ class DBService {
   }
 
   // Função para recuperar transactions por tipo
-  Future<Either<AppError, List<TransactionModel>>> fetchTransactions(TransactionType type) async {
+  Future<Either<AppError, List<TransactionModel>>> fetchTransactions({TransactionType? type}) async {
     try {
       final db = await database;
-      // Recuperar todas as categorias
-      final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery('''
+
+      String query = '''
         SELECT
           t.*,
           json_object(
@@ -43,8 +43,23 @@ class DBService {
           ) as category
         FROM transactions t
         LEFT JOIN categories c ON t.category_id = c.id
-        WHERE t.type = ?
-      ''', [type.type]);
+      ''';
+
+      if (type != null) {
+        query += 'WHERE t.type = "${type.type}"';
+      }
+      final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery(query);
+      // final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery('''
+      //   SELECT
+      //     t.*,
+      //     json_object(
+      //       'id', c.id,
+      //       'name', c.name
+      //     ) as category
+      //   FROM transactions t
+      //   LEFT JOIN categories c ON t.category_id = c.id
+      //   WHERE t.type = ?
+      // ''', [type.type]);
       print(transactionsMaps);
 
       return Either.right(transactionsFromMap(transactionsMaps));
