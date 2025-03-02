@@ -13,3 +13,7 @@ export 'package:fin_track/utils/extensions/route_path.dart';
 export 'package:flutter/material.dart';
 export 'package:go_router/go_router.dart';
 export 'package:provider/provider.dart';
+export 'package:fin_track/data/di/setup_locator.dart';
+export 'package:fin_track/core/services/db/db.dart';
+export 'package:fin_track/modules/expenses/repository.dart';
+export 'package:fin_track/modules/home/repository.dart';

@@ -1,6 +1,6 @@
 import 'package:fin_track/data/di/setup_locator.dart';
-import 'package:fin_track/data/services/db/db.dart';
-import 'package:fin_track/data/services/navigation.dart';
+import 'package:fin_track/core/services/db/db.dart';
+import 'package:fin_track/core/services/navigation.dart';
 import 'package:flutter/material.dart';
 
 void main() async {

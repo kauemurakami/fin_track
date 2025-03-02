@@ -1,7 +1,3 @@
-import 'package:fin_track/data/di/setup_locator.dart';
-import 'package:fin_track/data/services/db/db.dart';
-import 'package:fin_track/modules/expenses/repository.dart';
-import 'package:fin_track/modules/home/repository.dart';
 
 import './delegate_imports.dart';
 

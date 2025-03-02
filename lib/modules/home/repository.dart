@@ -1,7 +1,7 @@
 import 'package:fin_track/data/models/app_error.dart';
 import 'package:fin_track/data/models/either.dart';
 import 'package:fin_track/data/models/transaction.dart';
-import 'package:fin_track/data/services/db/db.dart';
+import 'package:fin_track/core/services/db/db.dart';
 
 class HomeRepository {
   final DBService dbService;

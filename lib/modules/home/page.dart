@@ -76,7 +76,9 @@ class _HomePageState extends State<HomePage> {
                                                 padding: const EdgeInsets.all(4.0),
                                                 decoration: BoxDecoration(
                                                   color: Colors.deepPurple.shade100,
-                                                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                                                  borderRadius: BorderRadius.all(
+                                                    Radius.circular(4.0),
+                                                  ),
                                                 ),
                                                 child: Text(
                                                   '${value[index].category?.name}',

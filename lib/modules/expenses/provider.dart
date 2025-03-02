@@ -1,4 +1,5 @@
 import 'package:fin_track/data/enums/transaction_type.dart';
+import 'package:fin_track/data/mixins/validations.dart';
 import 'package:fin_track/data/models/app_error.dart';
 import 'package:fin_track/data/models/category.dart';
 import 'package:fin_track/data/models/either.dart';
@@ -6,7 +7,7 @@ import 'package:fin_track/data/models/transaction.dart';
 import 'package:fin_track/modules/expenses/repository.dart';
 import 'package:flutter/foundation.dart';
 
-class ExpensesProvider extends ChangeNotifier {
+class ExpensesProvider extends ChangeNotifier with ValidationsMixin {
   final ExpensesRepository repository;
 
   ExpensesProvider(this.repository);
@@ -26,8 +27,8 @@ class ExpensesProvider extends ChangeNotifier {
       //TODO: another handlers
     }, (TransactionModel transaction) {
       transactions.value.add(transaction);
-      notifyListeners();
     });
+    notifyListeners();
     return result;
   }
 
@@ -67,23 +68,11 @@ class ExpensesProvider extends ChangeNotifier {
   onChangedTitle(String value) => newTransaction.title = value;
   onSavedTitle(String value) => newTransaction.title = value;
   validateTitle(String value) => value.length < 3 ? 'Insert a valide title' : null;
-  onChangedAmount(String value) {
-    final amount = double.tryParse(value);
-    if (amount != null) {
-      newTransaction.amount = amount;
-    } else {
-      newTransaction.amount = 0.00;
-    }
-  }
 
-  onSavedAmount(String value) {
-    final amount = double.tryParse(value);
-    if (amount != null) {
-      newTransaction.amount = amount;
-    } else {
-      newTransaction.amount = 0.00;
-    }
-  }
+  //m'
+  onChangedAmount(String value) => newTransaction.amount = nullAmount(value);
+  //m'
+  onSavedAmount(String value) => newTransaction.amount = nullAmount(value);
 
   validateAmount(String value) => value.length < 1 ? 'Insert an amount' : null;
 
