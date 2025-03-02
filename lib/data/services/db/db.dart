@@ -29,8 +29,8 @@ class DBService {
     }
   }
 
-  // Função para recuperar todas as transactions do tipo expense
-  Future<Either<AppError, List<TransactionModel>>> fetchExpenses() async {
+  // Função para recuperar transactions por tipo
+  Future<Either<AppError, List<TransactionModel>>> fetchTransactions(TransactionType type) async {
     try {
       final db = await database;
       // Recuperar todas as categorias
@@ -44,12 +44,12 @@ class DBService {
         FROM transactions t
         LEFT JOIN categories c ON t.category_id = c.id
         WHERE t.type = ?
-      ''', [TransactionType.expense.type]);
+      ''', [type.type]);
       print(transactionsMaps);
 
       return Either.right(transactionsFromMap(transactionsMaps));
     } on DatabaseException catch (e) {
-      print('Error in recovery transactions: ${e.toString()}');
+      print('Error in recovery expenses: ${e.toString()}');
       return Either.left(AppError(error: 'Database Exception', message: 'Error recovery expenses'));
     } catch (e) {
       print('Unexpected Error: ${e.toString()}');

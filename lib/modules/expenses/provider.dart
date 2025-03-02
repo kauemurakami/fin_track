@@ -34,7 +34,7 @@ class ExpensesProvider extends ChangeNotifier {
   addCategory() async {}
 
   Future<Either<AppError, List<TransactionModel>>> fetchExpenses() async {
-    final Either<AppError, List<TransactionModel>> result = await repository.fetchExpenses();
+    final Either<AppError, List<TransactionModel>> result = await repository.fetchExpenses(TransactionType.expense);
     result.fold((AppError error) {
       //TODO: another handlers
       transactions.value = [];

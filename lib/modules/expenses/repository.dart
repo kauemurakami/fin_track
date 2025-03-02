@@ -1,3 +1,4 @@
+import 'package:fin_track/data/enums/transaction_type.dart';
 import 'package:fin_track/data/models/app_error.dart';
 import 'package:fin_track/data/models/category.dart';
 import 'package:fin_track/data/models/either.dart';
@@ -10,7 +11,8 @@ class ExpensesRepository {
   ExpensesRepository(this.dbService);
 
   Future<Either<AppError, List<CategoryModel>>> fetchCategories() async => await dbService.fetchCategories();
-  Future<Either<AppError, List<TransactionModel>>> fetchExpenses() async => await dbService.fetchExpenses();
+  Future<Either<AppError, List<TransactionModel>>> fetchExpenses(TransactionType type) async =>
+      await dbService.fetchTransactions(type);
   Future<Either<AppError, CategoryModel>> addCategory(CategoryModel category) async =>
       await dbService.addCategory(category);
 
