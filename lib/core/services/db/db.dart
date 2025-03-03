@@ -9,7 +9,19 @@ import 'package:path_provider/path_provider.dart';
 class DBService {
   static Database? _database;
   Future<Either<AppError, CategoryModel>> addCategory(CategoryModel category) async {
-    return Either.left(AppError(error: '1'));
+    try {
+      final db = await database;
+      final insertedId = await db.insert('categories', category.toJson());
+      final categoryMap = await db.rawQuery('SELECT * FROM categories WHERE id = ?', [insertedId]);
+      print(categoryMap.first);
+      return Either.right(CategoryModel.fromJson(categoryMap.first));
+    } on DatabaseException catch (e) {
+      print('Error in add categories: ${e.toString()}');
+      return Either.left(AppError(error: 'Database Exception', message: 'Error insert category'));
+    } catch (e) {
+      print('Unexpected Error: ${e.toString()}');
+      return Either.left(AppError(error: 'Unexpected Error', message: 'Unexpected Error'));
+    }
   }
 
   Future<Either<AppError, TransactionModel>> addExpense(TransactionModel transaction) async {

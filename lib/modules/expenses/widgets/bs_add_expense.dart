@@ -30,10 +30,9 @@ class BSAddExpense extends StatelessWidget {
                 DropdownButtonFormField<CategoryModel>(
                   padding: EdgeInsets.zero,
                   value: provider.selectedCategory,
-                  items:
-                      provider.categories.map((category) {
-                        return DropdownMenuItem<CategoryModel>(value: category, child: Text(category.name!));
-                      }).toList(),
+                  items: provider.categories.value.map((category) {
+                    return DropdownMenuItem<CategoryModel>(value: category, child: Text(category.name!));
+                  }).toList(),
                   onChanged: (CategoryModel? value) {
                     if (value != null) {
                       // Atualizar a categoria selecionada
@@ -49,11 +48,10 @@ class BSAddExpense extends StatelessWidget {
                       onPressed: () async {
                         await showDialog(
                           context: context,
-                          builder:
-                              (context) => ChangeNotifierProvider.value(
-                                value: provider,
-                                builder: (context, child) => ADCreateCategory(),
-                              ),
+                          builder: (context) => ChangeNotifierProvider.value(
+                            value: provider,
+                            builder: (context, child) => ADCreateCategory(),
+                          ),
                         );
                       },
                       child: Text('Add new category'),
@@ -96,6 +94,7 @@ class BSAddExpense extends StatelessWidget {
                 DefaultButton(
                   callback: () async {
                     await provider.addExpense();
+                    context.mounted ? Navigator.pop(context) : null;
                   },
                   text: 'Create',
                   color: Colors.green.shade500,

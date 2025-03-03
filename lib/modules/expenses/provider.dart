@@ -11,7 +11,7 @@ class ExpensesProvider extends ChangeNotifier with ValidationsMixin {
   final ExpensesRepository repository;
 
   ExpensesProvider(this.repository);
-  List<CategoryModel> categories = [];
+  ValueNotifier<List<CategoryModel>> categories = ValueNotifier([]);
   ValueNotifier<List<TransactionModel>> transactions = ValueNotifier([]);
   ValueNotifier<bool> loadTransactions = ValueNotifier(true);
   late CategoryModel selectedCategory;
@@ -32,7 +32,16 @@ class ExpensesProvider extends ChangeNotifier with ValidationsMixin {
     return result;
   }
 
-  addCategory() async {}
+  Future<Either<AppError, CategoryModel>> addCategory() async {
+    final Either<AppError, CategoryModel> result = await repository.addCategory(newCategory);
+    result.fold((AppError error) {
+      // TODO: another handlers
+    }, (CategoryModel category) {
+      categories.value.add(category);
+    });
+    categories.notifyListeners();
+    return result;
+  }
 
   Future<Either<AppError, List<TransactionModel>>> fetchExpenses() async {
     final Either<AppError, List<TransactionModel>> result = await repository.fetchExpenses(TransactionType.expense);
@@ -51,9 +60,9 @@ class ExpensesProvider extends ChangeNotifier with ValidationsMixin {
     final Either<AppError, List<CategoryModel>> result = await repository.fetchCategories();
     result.fold((AppError error) {
       //TODO: another handlers
-      categories = [];
+      categories = ValueNotifier([]);
     }, (List<CategoryModel> categories) {
-      this.categories = categories;
+      this.categories.value = categories;
       selectedCategory = categories.first;
     });
     notifyListeners();

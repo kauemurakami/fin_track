@@ -82,7 +82,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                                               Row(
                                                 spacing: 1.0,
                                                 children: [
-                                                  Icon(Icons.remove, color: Colors.red, size: 11.0),
+                                                  Icon(Icons.trending_down, color: Colors.red, size: 18.0),
                                                   Text(value[index].amount!.toStringAsFixed(2)),
                                                 ],
                                               ),

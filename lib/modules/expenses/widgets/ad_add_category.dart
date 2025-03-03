@@ -21,6 +21,7 @@ class ADCreateCategory extends StatelessWidget {
         DefaultButton(
           callback: () async {
             await provider.addCategory();
+            context.mounted ? Navigator.pop(context) : null;
           },
           text: 'Create',
           color: Colors.green.shade500,
