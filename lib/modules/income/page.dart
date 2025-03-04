@@ -1,4 +1,5 @@
 import 'package:fin_track/modules/income/provider.dart';
+import 'package:fin_track/modules/income/widgets/bs_add_income.dart';
 import 'package:fin_track/utils/functions/format_date.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,19 @@ class _IncomePageState extends State<IncomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async => await showModalBottomSheet(
+          // backgroundColor: Color(0xff1e1e1e),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(4.0), topRight: Radius.circular(4.0)),
+          ),
+          enableDrag: true,
+          isDismissible: true,
+          context: context,
+          builder: (_) => ChangeNotifierProvider.value(value: provider, builder: (__, ___) => BSAddIncomeWidget()),
+        ),
+        child: Icon(Icons.add),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
