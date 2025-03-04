@@ -130,7 +130,7 @@ class DBService {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             amount REAL NOT NULL,
-            date TEXT NOT NULL,
+            date TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
             type TEXT NOT NULL,
             category_id INTEGER,
             FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE

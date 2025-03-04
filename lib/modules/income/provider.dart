@@ -15,7 +15,6 @@ class IncomeProvider extends ChangeNotifier with ValidationsMixin {
 
   Future<Either<AppError, TransactionModel>> addIncome() async {
     newTransaction.type = TransactionType.income;
-    newTransaction.date = DateTime.now();
     final Either<AppError, TransactionModel> result = await repository.addIncome(newTransaction);
     result.fold((AppError error) {
       // TODO: another error handlers

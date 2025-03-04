@@ -52,7 +52,7 @@ class TransactionModel {
   Map<String, dynamic> toJson() => {
         "title": title,
         "amount": amount,
-        "date": date?.toIso8601String(),
+        // "date": date?.toIso8601String(),
         "type": type == TransactionType.expense ? TransactionType.expense.type : TransactionType.income.type,
         "category_id": category?.id,
       };

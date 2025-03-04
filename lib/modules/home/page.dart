@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     provider = Provider.of<HomeProvider>(context, listen: false);
+    print('aqui');
     provider.fetchTransactions();
     // TODO: implement initState
     super.initState();
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('transactions');
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -31,73 +33,78 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('All Transactions', style: TextTheme.of(context).titleLarge),
-              Expanded(
-                child: ValueListenableBuilder(
-                  valueListenable: provider.loadTransactions,
-                  builder: (context, load, child) => load
-                      ? Center(child: CircularProgressIndicator.adaptive())
-                      : ValueListenableBuilder(
-                          valueListenable: provider.transactions,
-                          builder: (context, value, child) => value.isEmpty
-                              ? Center(child: Text('You still have no transactions'))
-                              : ListView.builder(
-                                  itemCount: value.length,
-                                  itemBuilder: (context, index) => Card(
-                                    // color: Color(0xff010101),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        spacing: 4.0,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '${value[index].title}',
-                                                style: TextTheme.of(context).titleMedium,
-                                              ),
-                                              Text(
-                                                formatDate(value[index].date!),
-                                                style: TextTheme.of(context).labelSmall,
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                spacing: 1.0,
-                                                children: [
-                                                  value[index].type == TransactionType.expense
-                                                      ? Icon(Icons.trending_down, color: Colors.red, size: 18.0)
-                                                      : Icon(Icons.trending_up, color: Colors.green, size: 18.0),
-                                                  Text(value[index].amount!.toStringAsFixed(2)),
-                                                ],
-                                              ),
-                                              Container(
-                                                padding: const EdgeInsets.all(4.0),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.deepPurple.shade100,
-                                                  borderRadius: BorderRadius.all(
-                                                    Radius.circular(4.0),
+              Consumer<int>(builder: (context, currentIndex, child) {
+                currentIndex == 0 ? provider.fetchTransactions() : null;
+                return Expanded(
+                  child: ValueListenableBuilder(
+                    valueListenable: provider.loadTransactions,
+                    builder: (context, load, child) => load
+                        ? Center(child: CircularProgressIndicator.adaptive())
+                        : ValueListenableBuilder(
+                            valueListenable: provider.transactions,
+                            builder: (context, value, child) => value.isEmpty
+                                ? Center(child: Text('You still have no transactions'))
+                                : ListView.builder(
+                                    itemCount: value.length,
+                                    itemBuilder: (context, index) => Card(
+                                      // color: Color(0xff010101),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          spacing: 4.0,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '${value[index].title}',
+                                                  style: TextTheme.of(context).titleMedium,
+                                                ),
+                                                Text(
+                                                  formatDate(value[index].date!),
+                                                  style: TextTheme.of(context).labelSmall,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  spacing: 1.0,
+                                                  children: [
+                                                    value[index].type == TransactionType.expense
+                                                        ? Icon(Icons.trending_down, color: Colors.red, size: 18.0)
+                                                        : Icon(Icons.trending_up, color: Colors.green, size: 18.0),
+                                                    Text(value[index].amount!.toStringAsFixed(2)),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  padding: const EdgeInsets.all(4.0),
+                                                  decoration: BoxDecoration(
+                                                    color: value[index].type == TransactionType.income
+                                                        ? Colors.green.shade100
+                                                        : Colors.deepPurple.shade100,
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(4.0),
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    '${value[index].type == TransactionType.income ? 'Income' : value[index].category?.name}',
+                                                    style: TextTheme.of(context).labelMedium,
                                                   ),
                                                 ),
-                                                child: Text(
-                                                  '${value[index].category?.name}',
-                                                  style: TextTheme.of(context).labelMedium,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                        ),
-                ),
-              ),
+                          ),
+                  ),
+                );
+              }),
             ],
           ),
         ),
