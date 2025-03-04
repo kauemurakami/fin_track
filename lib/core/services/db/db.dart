@@ -60,6 +60,7 @@ class DBService {
       if (type != null) {
         query += 'WHERE t.type = "${type.type}"';
       }
+      query += ' ORDER BY t.date DESC';
       final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery(query);
       // final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery('''
       //   SELECT
