@@ -1,6 +1,7 @@
 import 'package:fin_track/data/enums/transaction_type.dart';
 import 'package:fin_track/data/models/app_error.dart';
 import 'package:fin_track/data/models/category.dart';
+import 'package:fin_track/data/models/category_transactions.dart';
 import 'package:fin_track/data/models/either.dart';
 import 'package:fin_track/data/models/transaction.dart';
 import 'package:sqflite/sqflite.dart';
@@ -8,12 +9,36 @@ import 'package:path_provider/path_provider.dart';
 
 class DBService {
   static Database? _database;
+
+  Future<Either<AppError, List<CategoryTransactionsModel>>> fetchCategoryTransactions() async {
+    try {
+      final db = await database;
+
+      final expensesByCategoryMap = await db.rawQuery('''
+        SELECT
+          c.id,
+          c.name,
+          SUM(t.amount) AS totalAmount
+        FROM categories c
+        JOIN transactions t ON c.id = t.category_id
+        GROUP BY c.id, c.name;
+      ''');
+      print(expensesByCategoryMap);
+      return Either.right(categoryTransactionsFromMap(expensesByCategoryMap));
+    } on DatabaseException catch (e) {
+      print('Error in add categories: ${e.toString()}');
+      return Either.left(AppError(error: 'Database Exception', message: 'Error insert category'));
+    } catch (e) {
+      print('Unexpected Error: ${e.toString()}');
+      return Either.left(AppError(error: 'Unexpected Error', message: 'Unexpected Error'));
+    }
+  }
+
   Future<Either<AppError, CategoryModel>> addCategory(CategoryModel category) async {
     try {
       final db = await database;
       final insertedId = await db.insert('categories', category.toJson());
       final categoryMap = await db.rawQuery('SELECT * FROM categories WHERE id = ?', [insertedId]);
-      print(categoryMap.first);
       return Either.right(CategoryModel.fromJson(categoryMap.first));
     } on DatabaseException catch (e) {
       print('Error in add categories: ${e.toString()}');
@@ -62,18 +87,6 @@ class DBService {
       }
       query += ' ORDER BY t.date DESC';
       final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery(query);
-      // final List<Map<String, dynamic>> transactionsMaps = await db.rawQuery('''
-      //   SELECT
-      //     t.*,
-      //     json_object(
-      //       'id', c.id,
-      //       'name', c.name
-      //     ) as category
-      //   FROM transactions t
-      //   LEFT JOIN categories c ON t.category_id = c.id
-      //   WHERE t.type = ?
-      // ''', [type.type]);
-      print(transactionsMaps);
 
       return Either.right(transactionsFromMap(transactionsMaps));
     } on DatabaseException catch (e) {
@@ -91,7 +104,6 @@ class DBService {
       final db = await database;
       // Recuperar todas as categorias
       final List<Map<String, dynamic>> categoryMaps = await db.rawQuery('SELECT * FROM categories');
-      print(categoryMaps);
 
       return Either.right(categoriesFromMap(categoryMaps));
     } on DatabaseException catch (e) {
