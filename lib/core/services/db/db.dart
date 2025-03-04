@@ -24,7 +24,7 @@ class DBService {
     }
   }
 
-  Future<Either<AppError, TransactionModel>> addExpense(TransactionModel transaction) async {
+  Future<Either<AppError, TransactionModel>> addTransaction(TransactionModel transaction) async {
     try {
       final db = await database;
 

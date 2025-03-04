@@ -55,8 +55,10 @@ class BSAddIncomeWidget extends StatelessWidget {
               DefaultButton(callback: () => Navigator.pop(context), text: 'Cancel', color: Colors.red.shade500),
               DefaultButton(
                 callback: () async {
-                  // await provider.addIncome();
-                  context.mounted ? Navigator.pop(context) : null;
+                  if (_formKey.currentState!.validate()) {
+                    await provider.addIncome();
+                    context.mounted ? Navigator.pop(context) : null;
+                  }
                 },
                 text: 'Create',
                 color: Colors.green.shade500,

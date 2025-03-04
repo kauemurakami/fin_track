@@ -7,5 +7,8 @@ class IncomeRepository {
   final DBService db;
   IncomeRepository(this.db);
 
+  Future<Either<AppError, TransactionModel>> addIncome(TransactionModel transaction) async =>
+      await db.addTransaction(transaction);
+
   Future<Either<AppError, List<TransactionModel>>> fetchIncomes(type) async => await db.fetchTransactions(type: type);
 }

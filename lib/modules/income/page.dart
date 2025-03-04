@@ -82,18 +82,18 @@ class _IncomePageState extends State<IncomePage> {
                                               Row(
                                                 spacing: 1.0,
                                                 children: [
-                                                  Icon(Icons.trending_down, color: Colors.red, size: 18.0),
+                                                  Icon(Icons.trending_up, color: Colors.green, size: 18.0),
                                                   Text(value[index].amount!.toStringAsFixed(2)),
                                                 ],
                                               ),
                                               Container(
                                                 padding: const EdgeInsets.all(4.0),
                                                 decoration: BoxDecoration(
-                                                  color: Colors.deepPurple.shade100,
+                                                  color: Colors.green.shade100,
                                                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
                                                 ),
                                                 child: Text(
-                                                  '${value[index].category?.name}',
+                                                  'Income',
                                                   style: TextTheme.of(context).labelMedium,
                                                 ),
                                               ),

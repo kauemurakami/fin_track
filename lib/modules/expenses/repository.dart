@@ -17,5 +17,5 @@ class ExpensesRepository {
       await dbService.addCategory(category);
 
   Future<Either<AppError, TransactionModel>> addExpense(TransactionModel transaction) async =>
-      await dbService.addExpense(transaction);
+      await dbService.addTransaction(transaction);
 }

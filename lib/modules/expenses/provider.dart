@@ -28,7 +28,7 @@ class ExpensesProvider extends ChangeNotifier with ValidationsMixin {
     }, (TransactionModel transaction) {
       transactions.value.add(transaction);
     });
-    notifyListeners();
+    transactions.notifyListeners();
     return result;
   }
 
