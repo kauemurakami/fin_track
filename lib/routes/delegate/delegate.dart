@@ -1,3 +1,4 @@
+import 'package:fin_track/modules/income/repository.dart';
 
 import './delegate_imports.dart';
 
@@ -56,7 +57,7 @@ class MyGoRouterDelegate {
                   print(state.fullPath);
                   return CustomFadeTransition(
                     child: ChangeNotifierProvider<IncomeProvider>(
-                      create: (context) => IncomeProvider(),
+                      create: (context) => IncomeProvider(IncomeRepository(getIt<DBService>())),
                       child: const IncomePage(),
                     ),
                   );

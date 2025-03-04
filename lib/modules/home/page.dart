@@ -1,3 +1,4 @@
+import 'package:fin_track/data/enums/transaction_type.dart';
 import 'package:fin_track/modules/home/provider.dart';
 import 'package:fin_track/utils/functions/format_date.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,9 @@ class _HomePageState extends State<HomePage> {
                                               Row(
                                                 spacing: 1.0,
                                                 children: [
-                                                  Icon(Icons.remove, color: Colors.red, size: 11.0),
+                                                  value[index].type == TransactionType.expense
+                                                      ? Icon(Icons.trending_down, color: Colors.red, size: 18.0)
+                                                      : Icon(Icons.trending_up, color: Colors.green, size: 18.0),
                                                   Text(value[index].amount!.toStringAsFixed(2)),
                                                 ],
                                               ),
