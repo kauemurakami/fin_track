@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:fin_track/data/models/transaction.dart';
-
 List<CategoryTransactionsModel> categoryTransactionsFromMap(List<Map<String, dynamic>> transactionMaps) {
   return List<CategoryTransactionsModel>.from(
-    transactionMaps.map((map) => TransactionModel.fromJson(map)),
+    transactionMaps.map((map) => CategoryTransactionsModel.fromJson(map)), // Corrigido!
   );
 }
 
