@@ -1,5 +1,8 @@
 # fin_track
 
+
+
+
 A new Flutter project.
 
 ## Getting Started
@@ -14,3 +17,8 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Security
+Download [apktool](https://apktool.org/docs/install) e siga a instruções<br/>
+caso o comando `apktool` não funcione, mesmo você tendo acesso a Windows/ ou tenha instalado em outra pasta, tente `java -jar C:\<seu-caminho>\apktool.jar`.<br/>
+
