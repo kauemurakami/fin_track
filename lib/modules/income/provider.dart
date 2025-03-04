@@ -40,12 +40,9 @@ class IncomeProvider extends ChangeNotifier with ValidationsMixin {
 
   onChangedTitle(String value) => newTransaction.title = value;
   onSavedTitle(String value) => newTransaction.title = value;
-  validateTitle(String value) => value.length < 3 ? 'Insert a valide title' : null;
+  validateTitle(String value) => validateLength(value, 3, 'Insert a valide title');
 
-  //m'
   onChangedAmount(String value) => newTransaction.amount = nullAmount(value);
-  //m'
   onSavedAmount(String value) => newTransaction.amount = nullAmount(value);
-
-  validateAmount(String value) => value.length < 1 ? 'Insert an amount' : null;
+  validateAmount(String value) => validateLength(value, 1, 'Insert an amount');
 }

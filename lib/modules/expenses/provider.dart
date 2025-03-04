@@ -20,7 +20,6 @@ class ExpensesProvider extends ChangeNotifier with ValidationsMixin {
 
   Future<Either<AppError, TransactionModel>> addExpense() async {
     newTransaction.category = selectedCategory;
-    newTransaction.date = DateTime.now();
     newTransaction.type = TransactionType.expense;
     final Either<AppError, TransactionModel> result = await repository.addExpense(newTransaction);
     result.fold((AppError error) {
@@ -76,16 +75,13 @@ class ExpensesProvider extends ChangeNotifier with ValidationsMixin {
 
   onChangedTitle(String value) => newTransaction.title = value;
   onSavedTitle(String value) => newTransaction.title = value;
-  validateTitle(String value) => value.length < 3 ? 'Insert a valide title' : null;
+  validateTitle(String value) => validateLength(value, 3, 'Insert a valide title');
 
-  //m'
   onChangedAmount(String value) => newTransaction.amount = nullAmount(value);
-  //m'
   onSavedAmount(String value) => newTransaction.amount = nullAmount(value);
-
-  validateAmount(String value) => value.length < 1 ? 'Insert an amount' : null;
+  validateAmount(String value) => validateLength(value, 1, 'Insert an amount');
 
   onChangedCategoryName(String value) => newCategory.name = value;
   onSavedCategoryName(String value) => newCategory.name = value;
-  validateCategoryName(String value) => value.length < 3 ? 'Insert a valid category' : null;
+  validateCategoryName(String value) => validateLength(value, 3, 'Insert a valid category');
 }

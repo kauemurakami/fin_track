@@ -7,4 +7,9 @@ mixin ValidationsMixin {
       return 0.00;
     }
   }
+
+  String? validateLength(String value, int minLength, String errorMessage) {
+    if (value.length < minLength) return errorMessage;
+    return null;
+  }
 }
