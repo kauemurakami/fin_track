@@ -1,22 +1,7 @@
 # fin_track
 
-
-
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Flutter Finances Management App com sqflite, provider, get_it and ChangeNotifier.<br/>
+E alguns testes de segurança.
 
 
 
@@ -86,5 +71,13 @@ Dê permissão de execução e inicie o frida-server:<br/>
 
 A partir dai o frida-server estará rodando em background e te exibira um pID de resposta como `[1] 31977`<br/>
 
+Após a instalação do frida, perceba que a função `HooksChecker.kt` não nos deixa mais rodar o aplicativo, como era de se esperar, pois o frida está instalado no nosso dispositivo.<br/>
+
+Para corrigir isso remova o `frida-server` de `/data/local/tmp/`<br/>
+
+`adb shell`<br/>
+`cd /datalocal/tmp/`<br/>
+`ls`<br/>
+`rm -rf frida-server*`<br/>
 
 
