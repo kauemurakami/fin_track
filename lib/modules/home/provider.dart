@@ -17,11 +17,8 @@ class HomeProvider extends ChangeNotifier {
   Future<Either<AppError, List<CategoryTransactionsModel>>> fetchExpensesByCategory() async {
     final Either<AppError, List<CategoryTransactionsModel>> result = await repository.fetchCategoryTransactions();
     result.fold((AppError error) {
-      print('errooo');
       // TODO another handlers
     }, (List<CategoryTransactionsModel> categoryTransactions) {
-      print('categoryTransactions.length');
-      print(categoryTransactions.length);
       transactionsByCategory.value = categoryTransactions;
       transactionsByCategory.notifyListeners();
     });

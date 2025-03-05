@@ -31,7 +31,7 @@ class _RadialChartWidgetState extends State<RadialChartWidget> {
             : Row(
                 children: [
                   Expanded(
-                    flex: 3,
+                    flex: 5,
                     child: AspectRatio(
                       aspectRatio: 1,
                       child: PieChart(
@@ -59,15 +59,43 @@ class _RadialChartWidgetState extends State<RadialChartWidget> {
                       ),
                     ),
                   ),
-                  Expanded(child: Text('data'))
+                  Expanded(
+                      flex: 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: showingTiles(provider.transactionsByCategory.value),
+                      ))
                 ],
               ),
       ),
     );
   }
 
+  List<Row> showingTiles(List<CategoryTransactionsModel> categoryTransactions) {
+    if (categoryTransactions.isEmpty) return [];
+
+    // Definir uma lista de cores para as categorias (ajuste conforme necessário)
+    final List<Color> colors = [Colors.blue, Colors.yellow, Colors.purple, Colors.green, Colors.red, Colors.orange];
+    return categoryTransactions.asMap().entries.map((entry) {
+      final index = entry.key;
+      final category = entry.value;
+      final color = colors[index % colors.length]; // Garante que sempre há uma cor disponível
+
+      return Row(
+        spacing: 4.0,
+        children: [
+          Container(
+            width: 10.0,
+            height: 10.0,
+            color: color,
+          ),
+          Text(category.name!),
+        ],
+      );
+    }).toList();
+  }
+
   List<PieChartSectionData> showingSections(List<CategoryTransactionsModel> categoryTransactions) {
-    print(categoryTransactions.length);
     if (categoryTransactions.isEmpty) return [];
 
     // Calcula o total geral

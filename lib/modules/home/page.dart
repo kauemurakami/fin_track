@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
               RadialChartWidget(),
               Consumer<int>(
                 builder: (context, currentIndex, child) {
+                  currentIndex == 0 ? provider.fetchExpensesByCategory() : null;
                   currentIndex == 0 ? provider.fetchTransactions() : null;
                   return Expanded(
                     child: ValueListenableBuilder(
